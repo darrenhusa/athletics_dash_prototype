@@ -3,6 +3,9 @@
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 from app import app
 from callbacks import teams
@@ -35,9 +38,22 @@ col_b = col_b_1 + col_b_hidden + col_b_2
 # ﻿TERM_ID,DEPT_ID,CRSE_ID,SECT_ID,DFLT_ID,LAST_NAME,FIRST_NAME,ATND_DATE,ATND_ID,AttendDateWoTime,AttendDateMonth,AttendDateDay
 col_c = ['TERM_ID', 'DEPT_ID', 'CRSE_ID', 'SECT_ID', 'DFLT_ID', 'LAST_NAME', 'FIRST_NAME', 'ATND_DATE', 'ATND_ID', 'AttendDateWoTime', 'AttendDateMonth', 'AttendDateDay']
 
+# long_term = 'Spring 2019'
+def build_long_term(term):
+    term_year = term[0:4]
+    term_part = term[-1]
+
+    if term_part == '1':
+        result = 'Fall {0}'.format(term_year)
+    elif term_part == '2':
+        result = 'Spring {0}'.format(int(term_year) + 1)
+
+    return result
+
+long_term = build_long_term(os.getenv("TERM"))
 
 layout1 = html.Div(children=[
-    html.H2('Spring 2019 Athlete Attendance Demo App'),
+    html.H2('{0} Athlete Attendance Demo App'.format(long_term)),
     html.Div(
         [
             dcc.Dropdown(

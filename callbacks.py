@@ -112,8 +112,12 @@ def store_courses_data_in_div(json_data, selected_rows):
         dff = pd.read_json(json_data, orient='split')
 
         for i in selected_rows:
+            #does not work!!!
+            # student_id = dff.iloc[i, 'StudentId']
+            # works!!!!!
             student_id = dff.iloc[i, 1]
-
+        print(student_id)
+        print('')
         df_c = get_course_data(student_id)
 
     #convert to json
